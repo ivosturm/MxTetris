@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<widget id="Tetris.widget.Tetris" needsEntityContext="false" xmlns="http://www.mendix.com/widget/1.0/">
+	<name>Tetris Widget</name>
+	<description>Add a Tetris game to your application.</description>
+
+	<icon>iVBORw0KGgoAAAANSUhEUgAAABoAAAAdCAMAAACDkYxEAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAACK1BMVEX19fX19fX19fX19fX19fX19fX19fX19fT18vL18vH18vH18vH18/P19fX39/fH0tZin7NforlforhdobiDq7nv7+/19fX5+Peqw8sEjr0AmMwAl8sAlso7lbTr6+v29vb59/erxMwEkb8Am84Ams0Amc07l7br6+v29vb59/erxMwEkb8Am84Ams0Amc07l7br6+v5+Peqw8sEjLkAlccAlcYAlMY7lLLr6+v29vb5+PeqvsUFcpcAeaEBeaEAd6A7g5vr6+v29vb59/erxMwEkL4Ams0AmcwAmMw7l7Xr6+v19fX19fX19fX19fX5+PerxM0EkcAAm84Ams0Amc07l7b19fX09PTw7+/w7+7w7+708fCnv8YEi7gAlcYAlMUAk8U7lLHr6+v29vb39/bU291XmrBKnLdLnLZMnbg0f5gCcpcAe6QAeqMAeaI7hJzr6+v49/fG0tYSj7oAmc0AmMwAmc0AgawAjr0Ams4Ams0Amcw7l7br6+v49/fG09cSkbsAm84Am84Agq0Ajr0Am87G09cSkbsAm84Ams0Am88Agq0Ajr0Am84Amc07l7br6+v49/fG0tYSjLUAlMcAlMYAlccAfacAiLYAlcYAk8U7k7Hr6+v29vb29vbg5OWRtL+Js8GKs8GKtMKJrLiJsLyKtMKIs8GkvcXx8fH19fX19fX29vX49/b59vb59vb59vb59/b59/b59vb59vb49vb19fX19fX////kwQC5AAAAAWJLR0S4Tb8m9gAAAAlwSFlzAAAOwwAADsMBx2+oZAAAAAd0SU1FB+IMDhEuBKP5jmkAAAEbSURBVCjPY2BAAoxMzGDAwsqABtjYOTi5gICbhxddio9fQFAICIRFRMXQpMQlJKWkgUBGVk4eTUpBUUlZBQhU1dQ1aC2lqaWtowsEevoG6FKGRsYmpkBgZm5hiSZlZW1jawcE9g6OTmhSzi6ubu5A4OHpha6LHv7y9vH1AwH/gMCgYCAICYX7Kyw8IjIKCKJjYuPigSAhMSkZKpWSmpaeAQSZWdk5uUCQl18A81dhUXFJKRCUlVdUVgFBdU0tzMC6+oZGkPVNzS2taM6gvlRbe0cnEHR19/SC6L7+CTCpiZMmT5kKBNOmz5gJomfNnjMXKjVv/oKFi4Bg8ZKly0D08hUrV0GlVq9Zu249EGzYuGkziN6yddt2BrwAAPATgPA0vxxxAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDE4LTEyLTE0VDE3OjQ2OjA0LTA1OjAwyQ0QawAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxOC0xMi0xNFQxNzo0NjowNC0wNTowMLhQqNcAAAAYdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjEuNBNAaMQAAAAASUVORK5CYII=</icon>
+
+	<properties>
+		<property key="FPS" type="integer" required="true" defaultValue="60">
+			<caption>FPS</caption>
+			<category>Behavior</category>
+			<description>Determine the FPS, so the amount of updates per second for the game.</description>
+		</property>
+		<property key="speedStart" type="integer" required="true" defaultValue="600">
+			<caption>Speed Start</caption>
+			<category>Behavior</category>
+			<description>Determine the start speed in milliseconds before a block moves one row down.</description>
+		</property>
+		<property key="speedIncrement" type="integer" required="true" defaultValue="5">
+			<caption>Speed Increment</caption>
+			<category>Behavior</category>
+			<description>Determine the speed increment in milliseconds after one row has been removed.</description>
+		</property>
+		<property key="speedMax" type="integer" required="true" defaultValue="100">
+			<caption>Speed Maximum</caption>
+			<category>Behavior</category>
+			<description>Determine the maximum speed of the game before a block moves down one row.</description>
+		</property>
+        <property key="saveMF" type="microflow" required="true" defaultValue="" entityProperty="objectEntity">
+            <caption>Save Microflow</caption>
+            <category>Behavior</category>
+            <description>The microflow to execute on game over. Use this to validate user input and check on front end JavaScript manipulation.</description>
+            <returnType type="Boolean" />
+        </property>
+        <property key="objectEntity" type="entity" required="true" allowNonPersistableEntities="true" >
+            <caption>Object Entity</caption>
+            <category>Data Source</category>
+            <description>The entity to store the Statistics in.</description>
+        </property>
+        <property key="nameAttr" type="attribute" entityProperty="objectEntity" required="true">
+            <caption>Player Name</caption>
+            <category>Data Source</category>
+            <description>Should hold the name of the player.</description>
+            <attributeTypes>
+                <attributeType name="String"/>
+            </attributeTypes>
+        </property>
+		<property key="labelName" type="string" defaultValue="Player Name">
+			<caption>Label</caption>
+			<category>Appearance</category>
+			<description>Label to appear for the name input field.</description>
+		</property>
+		<property key="placeholderName" type="string" defaultValue="Enter your name">
+			<caption>Placeholder</caption>
+			<category>Appearance</category>
+			<description>The placeholder text to appear when no name is entered yet.</description>
+		</property>
+		<property key="emptyNameMessage" type="string" required="true" defaultValue="Please fill in a name for the player to being able to start the game!">
+			<caption>Empty Name Message</caption>
+			<category>Appearance</category>
+			<description>The message that will pop-up once a game tries to be started without a player name entered.</description>
+		</property>
+		<property key="newGameMessage" type="string" required="true" defaultValue="Refresh the page (F5) to start a new game">
+			<caption>New Game Message</caption>
+			<category>Appearance</category>
+			<description>The message that will pop-up at game over.</description>
+		</property>
+        <property key="scoreAttr" type="attribute" entityProperty="objectEntity" required="true">
+            <caption>Score</caption>
+            <category>Data Source</category>
+            <description>Should hold the score of the player.</description>
+            <attributeTypes>
+                <attributeType name="Integer"/>
+            </attributeTypes>
+        </property>
+        <property key="gameLogAttr" type="attribute" entityProperty="objectEntity" required="true">
+            <caption>Game Log</caption>
+            <category>Data Source</category>
+            <description>A game log to keep track of the rows removed, level up and score upgrades per play.</description>
+            <attributeTypes>
+                <attributeType name="String"/>
+            </attributeTypes>
+        </property>
+        <property key="rowsAttr" type="attribute" entityProperty="objectEntity" required="true">
+            <caption>Rows</caption>
+            <category>Data Source</category>
+            <description>Should hold the number of rows of the player.</description>
+            <attributeTypes>
+                <attributeType name="Integer"/>
+            </attributeTypes>
+        </property>	
+        <property key="levelAttr" type="attribute" entityProperty="objectEntity" required="true">
+            <caption>Level</caption>
+            <category>Data Source</category>
+            <description>Should hold the level of the player.</description>
+            <attributeTypes>
+                <attributeType name="Integer"/>
+            </attributeTypes>
+        </property>			
+		<property key="courtWidth" type="integer" required="true" defaultValue="10">
+			<caption>Width</caption>
+			<category>Appearance</category>
+			<description>Width of tetris court (in blocks). Keep width half of height.</description>
+		</property>
+		<property key="courtHeight" type="integer" required="true" defaultValue="20">
+			<caption>Height</caption>
+			<category>Appearance</category>
+			<description>Height of tetris court (in blocks). Keep height 2 times width.</description>
+		</property>
+		<property key="blockOpacity" type="integer" required="true" defaultValue="10">
+			<caption>Block Opacity</caption>
+			<category>Styling</category>
+			<description>Determine the opacity of all Tetris blocks. 0 is fully transparent, 10 fully opaque.</description>
+		</property>
+		<property key="colorI" type="string" required="true" defaultValue="191,239,255">
+			<caption>Color I</caption>
+			<category>Styling</category>
+			<description>Determine the color if the I-shaped Tetris block. Needs RGB values, so rrr,ggg,bbb.</description>
+		</property>
+		<property key="colorJ" type="string" required="true" defaultValue="0,154,205">
+			<caption>Color J</caption>
+			<category>Styling</category>
+			<description>Determine the color if the J-shaped Tetris block. Needs RGB values, so rrr,ggg,bbb.</description>
+		</property>
+		<property key="colorL" type="string" required="true" defaultValue="254,106,0">
+			<caption>Color L</caption>
+			<category>Styling</category>
+			<description>Determine the color if the L-shaped Tetris block. Needs RGB values, so rrr,ggg,bbb.</description>
+		</property>
+		<property key="colorO" type="string" required="true" defaultValue="232,221,17">
+			<caption>Color O</caption>
+			<category>Styling</category>
+			<description>Determine the color if the O-shaped Tetris block. Needs RGB values, so rrr,ggg,bbb.</description>
+		</property>
+		<property key="colorS" type="string" required="true" defaultValue="209,158,255">
+			<caption>Color S</caption>
+			<category>Styling</category>
+			<description>Determine the color if the S-shaped Tetris block. Needs RGB values, so rrr,ggg,bbb.</description>
+		</property>
+		<property key="colorT" type="string" required="true" defaultValue="158,255,158">
+			<caption>Color T</caption>
+			<category>Styling</category>
+			<description>Determine the color if the T-shaped Tetris block. Needs RGB values, so rrr,ggg,bbb.</description>
+		</property>
+		<property key="colorZ" type="string" required="true" defaultValue="240,40,40">
+			<caption>Color Z</caption>
+			<category>Styling</category>
+			<description>Determine the color if the Z-shaped Tetris block. Needs RGB values, so rrr,ggg,bbb.</description>
+		</property>
+		<property key="canvasDivColor" type="string" required="true" defaultValue="whitesmoke">
+			<caption>BG Color</caption>
+			<category>Styling</category>
+			<description>Determine the background color of the game area.</description>
+		</property>		
+		<property key="upcomingDivColor" type="string" required="true" defaultValue="whitesmoke">
+			<caption>BG Color Upcoming</caption>
+			<category>Styling</category>
+			<description>Determine the background color of the upcoming block part.</description>
+		</property>
+		<property key="enableLogging" type="boolean" required="true" defaultValue="false">
+			<caption>Logging</caption>
+			<category>Testing</category>
+			<description>Enable or disable logging of JavaScript functions in your browser console. Mainly to be used for testing/debugging purposes.</description>
+		</property>
+	</properties>
+</widget>
